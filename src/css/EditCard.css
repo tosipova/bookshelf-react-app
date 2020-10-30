@@ -1,0 +1,16 @@
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 160px;
+    margin: 15px;
+    padding: 10px;
+    border: 1px solid #333;
+}
+
+.edit-form input {
+    margin-bottom: 5px;
+}
+
+.edit-form input:last-of-type {
+    margin-bottom: 10px
+}

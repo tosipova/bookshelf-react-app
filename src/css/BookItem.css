@@ -1,0 +1,31 @@
+.book-item {
+    padding: 10px 5px;
+    text-align: left;
+    border: 1px solid #333;
+    width: 150px;
+}
+
+.book-item button {
+    display: none;
+}
+
+.book-item:hover button {
+    display: initial;
+}
+
+/*
+
+.column1 {
+    columns: 4;
+}
+ .column {
+    float: left;
+    width: 50%;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+   */

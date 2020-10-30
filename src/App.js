@@ -1,15 +1,18 @@
 import React from 'react';
-import EditCard from './EditCard'
-import BookItem from './BookItem'
+import EditCard from './components/EditCard';
+import UserBooks from './components/UserBooks';
+
 
 
 function App() {
   return (
-    <div>
+    <div className="row">
       <EditCard />
-      <BookItem author="Smith" title="find nemo"/>
+      <UserBooks />
     </div>
   );
 }
+
+
 
 export default App;
