@@ -4,7 +4,6 @@ export function fetchBook() {
   return fetch(API_URL)
     .then(response => response.json())
     .then((bookResult) => {
-      console.log(bookResult)
       return bookResult
     })
 }
@@ -16,12 +15,13 @@ export function removeBook(id) {
   })
     .then(response => {
       if (response.status !== 200) {
-        throw new Error;
+        throw new Error();
       }
     })
+
 };
 
-export function addBook(title, author, year, pages) {
+export function addBook({ title, author, year, pages }) {
   return fetch(API_URL, {
     method: 'POST',
     body: JSON.stringify({
@@ -39,8 +39,10 @@ export function addBook(title, author, year, pages) {
     })
 }
 
-export function editBook(id,author, title, pages, year) {
-  const API_URL_SINGLE_BOOK = `${API_URL}/${id}`;
+export function editBook(book) {
+  const { _id, author, title, pages, year } = book;
+  const API_URL_SINGLE_BOOK = `${API_URL}/${_id}`;
+
   return fetch(API_URL_SINGLE_BOOK, {
     method: 'POST',
     body: JSON.stringify({
@@ -55,7 +57,7 @@ export function editBook(id,author, title, pages, year) {
   })
     .then(response => {
       if (response.status !== 200) {
-        throw new Error;
+        throw new Error();
       }
     })
 };

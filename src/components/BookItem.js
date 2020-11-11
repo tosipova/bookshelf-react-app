@@ -1,18 +1,21 @@
 import React from 'react';
 import '../css/BookItem.css'
-import { addBook } from '../services/fetch-book';
 
-function BookItem({ title, author, year, pages, onDelete, addBook }) {
+
+
+function BookItem(props) {
+    const { title, author, year, pages, onDelete, onEdit } = props;
 
     return (
         <div className="book-item">
-            <div className="column1"> {title} </div>
-            <div className="column2"> {author} </div>
-            <div className="column3"> {year} </div>
-            <div className="column4"> {pages} </div>
+            <div > {title} </div>
+            <div > {author} </div>
+            <div > {year} </div>
+            <div > {pages} </div>
 
-            <button className="item-save-button" onClick={addBook}> Edit Book </button>
-            <button className="item-delete-button" onClick={onDelete}>Delete</button>
+
+            <button onClick={onEdit}> Edit Book </button>
+            <button onClick={onDelete}>Delete</button>
 
         </div>
     )

@@ -1,82 +1,81 @@
-import React, { useState } from 'react';
-import { addBook } from '../services/fetch-book';
-
+import React from 'react';
 import '../css/EditCard.css';
 
 
-// class EditCard extends React.Component {
-//     constructor(props) {
-//         super(props)
+// function EditCard(props) {
+// props.removeCurrentBook, props.currentBook || const { currentBook, removeCurrentBook } = props;
 
-//         this.state = {
-//             title: 'find nemo',
-//             author: 'smith'
-//             //...
-//         }
-//     }
-
-//     setTitle = newTitle => {
-//         this.setState({
-//             title: newTitle
-//         })
-//     }
-
-//     render() {
-//         const { title } = this.state;
-
-//         return <form>...</form>
-//     }
-// }
-
-function EditCard() {
-    const [title, setTitle] = useState("find nemo")
-    const [author, setAuthor] = useState("smith")
-    const [year, setYear] = useState("1997")
-    const [pages, setPages] = useState("5")
+function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
+    const defaultBookState = {
+        title: '',
+        author: '',
+        year: '',
+        pages: ''
+    };
+    const [book, setBook] = React.useState(defaultBookState)
 
     const onSubmit = (event) => {
         event.preventDefault()
 
-        addBook(title, author, year, pages);
+        if (currentBook) {
+            editBook(book)
+        } else {
+            addBook(book)
+        }
     }
+
+    React.useEffect(() => {
+        if (currentBook) {
+            setBook(currentBook)
+        }
+    }, [(currentBook)])
+
     return (
         <form onSubmit={onSubmit} className="edit-form">
 
             <input
                 type="text"
-                value={title}
+                value={book.title}
                 onChange={(event) => {
-                    setTitle(event.target.value)
+                    setBook({ ...book, title: event.target.value })
                 }}
             />
-
             <input
                 type="text"
-                value={author}
+                value={book.author}
                 onChange={(event) => {
-                    setAuthor(event.target.value)
+                    setBook({ ...book, author: event.target.value })
                 }}
             />
-
             <input
                 type="text"
-                value={year}
+                value={book.year}
                 onChange={(event) => {
-                    setYear(event.target.value)
+                    setBook({ ...book, year: event.target.value })
                 }}
             />
-
             <input
                 type="text"
-                value={pages}
+                value={book.pages}
                 onChange={(event) => {
-                    setPages(event.target.value)
+                    setBook({ ...book, pages: event.target.value })
                 }}
             />
+            <button> {currentBook ? 'Edit book' : 'Add book'} </button>
 
-            <button className="button-save"> Save </button>
+            {
+                currentBook && <button
+                    onClick={() => {
+                        removeCurrentBook()
+                        setBook(defaultBookState)
+                    }}
+                    type="button"
 
-        </form>
+                >
+                    Cancel
+                     </button>
+            }
+        </form >
     )
 };
 export default EditCard;
