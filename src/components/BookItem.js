@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import '../css/BookItem.css'
 
 
@@ -9,13 +10,19 @@ function BookItem(props) {
     return (
         <div className="book-item">
             <div > {title} </div>
-            <div > {author} </div>
+            <div >
+                { onEdit ?
+                    (<Link to={`/authors/${author}`}>
+                        {author}
+                    </Link>) : author
+                }
+            </div>
             <div > {year} </div>
             <div > {pages} </div>
 
 
-            <button onClick={onEdit}> Edit Book </button>
-            <button onClick={onDelete}>Delete</button>
+            {onEdit && <button onClick={onEdit}> Edit Book </button>}
+            {onDelete && <button onClick={onDelete}>Delete</button>}
 
         </div>
     )

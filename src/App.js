@@ -1,14 +1,19 @@
 import React from 'react';
-import BookItem from './components/BookItem';
-import EditCard from './components/EditCard';
-import { addBook as addBookToServer, fetchBook, removeBook as removeBookFromServer, editBook as editBookOnServer } from './services/fetch-book';
+import Home from './Home';
+import NotFound from './components/NotFound'
+import AllAuthors from './components/AllAuthors'
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import AuthorPage from './components/AuthorPage';
+import { fetchBook } from './services/fetch-book';
 
 function App() {
 
   const [booksList, setBooksList] = React.useState([]);
-  const [currentBook, setCurrentBook] = React.useState();
-
   React.useEffect(() => {
     fetchBook().then(
       bookResult => {
@@ -17,60 +22,28 @@ function App() {
     );
   }, []);
 
-  const removeCurrentBook = () => {
-    setCurrentBook(undefined)
-  }
-
-  const removeBook = (id) => {
-    removeBookFromServer(id)
-      .then(() => {
-        setBooksList(booksList.filter(item => item._id !== id))
-      })
-  }
-
-
-  const addBook = (book) => {
-    addBookToServer(book)
-      .then(() => {
-        return fetchBook()
-      })
-      .then(newBookList => {
-        setBooksList(newBookList)
-      })
-  }
-  const editBook = (book) => {
-    editBookOnServer(book)
-      .then(() => {
-        return fetchBook()
-      })
-      .then(newBookList => {
-        setBooksList(newBookList)
-      })
-  }
-
-  const onClickEditBook = (id) => {
-
-    const currentBook = booksList.find((item) => {
-      if (item._id === id) {
-        return true
-      }
-    })
-    setCurrentBook(currentBook)
+  const onDeleteAuthor = () => {
 
   }
+
   return (
-    <div className="row">
-      <EditCard currentBook={currentBook} removeCurrentBook={removeCurrentBook} addBook={addBook} editBook={editBook}/>
-      <div className="row">
-
-        {booksList.map((item, idx) => {
-
-          return <BookItem key={idx} onDelete={() => removeBook(item._id)} onEdit={() => onClickEditBook(item._id)} {...item} />
-        })}
-
-      </div>
-    </div>
-  );
+    <Router>
+      <Switch>
+        <Route exact path="/authors">
+          <AllAuthors/>
+        </Route>
+        <Route path="/authors/:name">
+          <AuthorPage onDeleteAuthor={onDeleteAuthor} />
+        </Route>
+        <Route exact path="/">
+          <Home booksList={booksList} setBooksList={setBooksList} />
+        </Route>
+        <Route path="*">
+          <NotFound />
+        </Route>
+      </Switch>
+    </Router>
+  )
 }
 
 export default App;
