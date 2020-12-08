@@ -8,11 +8,18 @@ import '../css/EditCard.css';
 function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
     const defaultBookState = {
         title: '',
-        author: '',
+        author: [''],
         year: '',
         pages: ''
     };
     const [book, setBook] = React.useState(defaultBookState)
+    // const [authors, setAuthors] = React.useState([])
+
+    React.useEffect(() => {
+        if (currentBook) {
+            setBook(currentBook)
+        }
+    }, [(currentBook)])
 
     const onSubmit = (event) => {
         event.preventDefault()
@@ -24,14 +31,17 @@ function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
         }
     }
 
-    React.useEffect(() => {
-        if (currentBook) {
-            setBook(currentBook)
+    const addAuthorField = () => setBook(prevBook => {
+        return {
+            ...prevBook,
+            author: [...prevBook.author, '']
         }
-    }, [(currentBook)])
+    })
 
     return (
         <form onSubmit={onSubmit} className="edit-form">
+
+            <button onClick={addAuthorField}> + </button>
 
             <input
                 type="text"
@@ -40,13 +50,27 @@ function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
                     setBook({ ...book, title: event.target.value })
                 }}
             />
-            <input
-                type="text"
-                value={book.author}
-                onChange={(event) => {
-                    setBook({ ...book, author: event.target.value })
-                }}
-            />
+
+            {book.author.map((author, idx) => {
+                return (
+                    <label htmlFor="new authors" key={idx}> Author
+    
+                        <input
+                            type="text"
+                            value={author}
+                            name={idx}
+                            onChange={(event) => {
+                                const myUpdatedAuthors = [...book.author]
+                                myUpdatedAuthors[idx] = event.target.value
+                                setBook({ ...book, author: myUpdatedAuthors })
+                            }}
+                            />
+                            
+                    </label>
+                )
+              })
+            }
+
             <input
                 type="text"
                 value={book.year}
@@ -61,6 +85,8 @@ function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
                     setBook({ ...book, pages: event.target.value })
                 }}
             />
+
+
             <button> {currentBook ? 'Edit book' : 'Add book'} </button>
 
             {
