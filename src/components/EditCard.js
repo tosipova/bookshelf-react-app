@@ -41,9 +41,9 @@ function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
     return (
         <form onSubmit={onSubmit} className="edit-form">
 
-            <button onClick={addAuthorField}> + </button>
-
+            <label htmlFor="book">Book New</label>
             <input
+                id="book"
                 type="text"
                 value={book.title}
                 onChange={(event) => {
@@ -53,8 +53,9 @@ function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
 
             {book.author.map((author, idx) => {
                 return (
-                    <label htmlFor="new authors" key={idx}> Author
-    
+                    <>
+                        <label htmlFor="new authors" key={idx}>Author</label>
+
                         <input
                             type="text"
                             value={author}
@@ -64,21 +65,27 @@ function EditCard({ currentBook, removeCurrentBook, addBook, editBook }) {
                                 myUpdatedAuthors[idx] = event.target.value
                                 setBook({ ...book, author: myUpdatedAuthors })
                             }}
-                            />
-                            
-                    </label>
-                )
-              })
-            }
+                        />
+                    </>
 
+                )
+            })
+            }
+            <button onClick={addAuthorField}> + </button>
+
+            <label htmlFor="year">Year</label>
             <input
+                id="year"
                 type="text"
                 value={book.year}
                 onChange={(event) => {
                     setBook({ ...book, year: event.target.value })
                 }}
             />
+
+            <label htmlFor="pages">Pages count</label>
             <input
+                id="pages"
                 type="text"
                 value={book.pages}
                 onChange={(event) => {

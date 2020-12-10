@@ -11,12 +11,13 @@ function AuthorPage() {
     const [books, setBooks] = React.useState([])
     const [authors, setAuthors] = React.useState([])
     const { name } = useParams();
+    const { title}  = useParams();
     // https://reactrouter.com/web/api/Hooks/usehistory
     const history = useHistory();
    
 
     React.useEffect(() => {
-        AuthorService.fetchAuthor(name)
+        AuthorService.fetchAuthor(name,title)
             .then((response) => {
                 if (response === []) {
                     history.push('/404.html')
@@ -26,7 +27,7 @@ function AuthorPage() {
               
             })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [name])
+    }, [name,title])
 
     const removeAuthor = (name) => {
         AuthorService.removeAuthor(name)
